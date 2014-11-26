@@ -1,4 +1,9 @@
-require File.expand_path('config/requirements')
-require File.expand_path('config/hoe') # setup Hoe + all gem configuration
+require "bundler/gem_tasks"
 
-Dir['tasks/**/*.rake'].each { |rake| load rake }
+desc "Run doctests"
+task :doctest do
+  sh "bundle exec #{File.dirname(__FILE__)}/bin/rubydoctest #{File.dirname(__FILE__)}/lib/*.rb #{File.dirname(__FILE__)}/test/*.rb"
+  exit($?.exitstatus)
+end
+
+task :test => :doctest
